@@ -13,7 +13,7 @@ app.use('/',
     )
 )
 
-app.listen(process.env.PORT || 3000, (err) => {
+app.listen(process.env.PORT || 8000, (err) => {
     if (err) { return console.log(err) }
 
     console.log('Tudo funcionando.')
