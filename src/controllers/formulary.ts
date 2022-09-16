@@ -1,4 +1,3 @@
-import { DBFormularyAnswer } from './../db';
 import { Request, Response } from "express";
 import { InvalidActionError, NotFoundError, ServerError, ValidationError } from "../helpers/apiError";
 import { FormularyAnswerInput, FormularyInput, FormularyStatus, KnexError } from "../types";

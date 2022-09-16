@@ -2,7 +2,7 @@ import { Request } from "express";
 import * as Knex from "knex";
 import { DBFormularyAnswer } from "../db";
 import { NotFoundError } from "../helpers/apiError";
-import { FormularyAnswerInput, File } from "../types";
+import { FormularyAnswerInput } from "../types";
 import { Repository } from "./Repository";
 
 export class FormularyAnswerRepository extends Repository<DBFormularyAnswer> {
