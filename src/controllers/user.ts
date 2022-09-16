@@ -1,5 +1,3 @@
-import { CivilStatus } from './../types/enums/profile';
-import { UserRepository } from './../repositories/UserRepository';
 import { Request, Response } from "express";
 import { DuplicatedEntityError, NotFoundError, ValidationError } from "../helpers/apiError";
 import { hashPassword } from "../helpers/auth";

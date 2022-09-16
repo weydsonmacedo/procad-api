@@ -1,4 +1,3 @@
-import { CivilStatus } from './../types/enums/profile';
 import { Request, Response } from "express";
 import { LoginError } from "../helpers/apiError";
 import jwt from "jsonwebtoken";
