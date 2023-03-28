@@ -7,3 +7,4 @@ export * from "./level";
 export * from "./nationality";
 export * from "./role";
 export * from "./user";
+export * from "./emailSender";

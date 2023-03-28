@@ -10,3 +10,4 @@ export { default as levelRoutes } from "./level";
 export { default as nationalityRoutes } from "./nationality";
 export { default as roleRoutes } from "./role";
 export { default as userRoutes } from "./user";
+export { default as emailSenderRoutes } from "./emailSender";

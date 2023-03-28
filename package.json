@@ -59,7 +59,7 @@
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.21",
-    "nodemailer": "^6.7.8",
+    "nodemailer": "^6.9.1",
     "pg": "^8.7.1",
     "pg-connection-string": "^2.5.0",
     "supertest": "^6.1.5",

@@ -11,6 +11,7 @@ import {
   nationalityRoutes,
   roleRoutes,
   userRoutes,
+  emailSenderRoutes,
 } from "./routes";
 
 // routes
@@ -27,5 +28,6 @@ routes.use(levelRoutes);
 routes.use(nationalityRoutes);
 routes.use(roleRoutes);
 routes.use(userRoutes);
+routes.use(emailSenderRoutes);
 
 export default routes;
