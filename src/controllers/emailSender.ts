@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import { Mail } from "../types/input/Email";
 import * as nodemailer from 'nodemailer';
-
+import * as fs from 'fs';
 
 export async function sendEmail(req: Request, res: Response) {
     const mailOptions: Mail = req.body;
+const emailContent: string = fs.readFileSync('d:/projects/procad-api/src/email-template.txt', 'utf-8');
+mailOptions.html = emailContent;
+mailOptions.subject = `PROCAD - RELATÓRIO DE ENVIO DE PROGREÇÃO ACADÊMICA`;
 
     // Configuração do transporte do e-mail
 let transporter = nodemailer.createTransport({
