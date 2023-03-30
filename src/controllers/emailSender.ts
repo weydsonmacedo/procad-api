@@ -9,9 +9,11 @@ export async function sendEmail(req: Request, res: Response) {
     // Configuração do transporte do e-mail
 let transporter = nodemailer.createTransport({
     service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
     auth: {
         user: 'procadufba@gmail.com',
-        pass: 'procad@2023'
+        pass: 'qkhfgueosusysowy'
     }
 });
 
@@ -21,8 +23,8 @@ transporter.sendMail(mailOptions, function(error, info){
         console.log(error);
     } else {
         console.log('E-mail enviado: ' + info.response);
+        return res.status(200).send("EMAIL ENVIADO COM SUCESSO");
+       
     }
 });
-return res.status(200).send("");
-
 }

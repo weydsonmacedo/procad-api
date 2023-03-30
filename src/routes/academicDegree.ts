@@ -3,6 +3,6 @@ import { getAcademicDegrees } from "../controllers";
 
 const routes = Router();
 
-routes.get("/academicDegree", getAcademicDegrees);
+routes.post("/academicDegree", getAcademicDegrees);
 
 export default routes;
