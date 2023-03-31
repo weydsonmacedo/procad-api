@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>PROCAD - RELATÓRIO DE ENVIO DE PROGREÇÃO ACADÊMICA</h1>
-    <p>Olá Senhor/a <variável>,</p>
+    <p>Olá Senhor/a <variavel>,</p>
     <p>Seja bem-vindo/a ao PROCAD. Este e-mail é a confirmação do envio de sua requisição para progressão acadêmica.</p>
     <p>Gostaríamos de informar que recebemos sua solicitação e estamos processando-a. Assim que tivermos novidades, entraremos em contato com você.</p>
     <p>Lembramos que este e-mail é automático e não é necessário respondê-lo.</p>
