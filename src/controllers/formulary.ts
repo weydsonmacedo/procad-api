@@ -132,10 +132,22 @@ export async function getFormularyInformations(req: Request, res: Response) {
     .orderBy("fields.campo")
     .orderBy("activities.atividade");
 
+
+    const dbUser = await req
+    .knex("users")
+    .select(
+      "users.id",
+      "users.firstName",
+      "users.lastName",
+      "users.email",
+    )
+    .where("users.id", dbFormulary.userId);
+  
   return res.status(200).send({
     dbFormulary,
     dbFormularyAnswers,
     dbFiles,
+    dbUser,
   });
 }
 
