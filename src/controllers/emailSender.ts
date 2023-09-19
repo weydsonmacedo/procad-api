@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
-import { Mail } from "../types/input/Email";
-import * as nodemailer from 'nodemailer';
-import * as fs from 'fs';
+//import { Mail } from "../types/input/Email";
+//import * as nodemailer from 'nodemailer';
+//import * as fs from 'fs';
 /*import * as puppeteer from 'puppeteer';*/
-import pdf from 'html-pdf';
+//import pdf from 'html-pdf';
+
 
 
 export async function sendEmail(req: Request, res: Response) {
 
-    const userName: string = req.body.userName;
+    console.log(req.body.html)
+    console.log(res)
+  /*  const userName: string = req.body.userName;
     const mailOptions = req.body.mailSetting;
     const emailContent: string = fs.readFileSync('d:/projects/procad-api/src/email-template.txt', 'utf-8');
 
@@ -52,28 +55,28 @@ console.log(req.body.html)
             }
         });
      })
-
+*/
 }
 
 
- async function generatePdfFromHtml(html) {
-       const options = { format: 'A4' };
+//  async function generatePdfFromHtml(html: string) {
+//        const options = { format: 'A4' };
 
-        pdf.create(html, options).toBuffer((err, buffer) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
+//         pdf.create(html, options).toBuffer((err, buffer) => {
+//         if (err) {
+//             console.error(err);
+//             return;
+//         }
 
-       return buffer;
+//        return buffer;
 
-        /*const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        await page.goto(document.URL);
-        const pdf = await page.pdf();
-        await browser.close();
-        console.log(pdf); // exibe o conteúdo do PDF gerado
-        return pdf;
-        //return null;*/
-      });
-    }
+//         /*const browser = await puppeteer.launch();
+//         const page = await browser.newPage();
+//         await page.goto(document.URL);
+//         const pdf = await page.pdf();
+//         await browser.close();
+//         console.log(pdf); // exibe o conteúdo do PDF gerado
+//         return pdf;
+//         //return null;*/
+//       });
+//     }

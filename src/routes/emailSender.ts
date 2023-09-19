@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { sendEmail} from "../controllers";
-import { auth } from "../middlewares/auth";
+/*import { auth } from "../middlewares/auth";*/
 
 const routes = Router();
 
