@@ -1,5 +1,5 @@
 // env variables
-import 'dotenv/config'
+require('dotenv').config();
 export const env = new Proxy(process.env, {
   get: (envObj, prop) => {
     if (!(prop in envObj)) {
