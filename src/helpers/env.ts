@@ -1,5 +1,4 @@
 // env variables
-require('dotenv').config();
 export const env = new Proxy(process.env, {
   get: (envObj, prop) => {
     if (!(prop in envObj)) {
@@ -9,6 +8,10 @@ export const env = new Proxy(process.env, {
     return envObj[String(prop)];
   },
 }) as { [envKey: string]: string };
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 export const isPrd = process.env.ENVIRONMENT === "prd";
 export const isStg = process.env.ENVIRONMENT === "staging";
