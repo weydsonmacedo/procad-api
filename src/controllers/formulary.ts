@@ -20,23 +20,57 @@ export async function createFormulary(req: Request, res: Response) {
   }
 
   try {
-    const dbFormulary = await req.db.FormularyRepository.insert(
-      {
-        type: formularyInput.type,
-        from: formularyInput.period.from,
-        to: formularyInput.period.to,
-        userId: req.decodedJTW.id,
-        status: FormularyStatus.ON_PROGRESS,
-        roleId: dbRole.id,
-        levelId: dbLevel.id,
-        classId: formularyInput.classId,
-        comission: JSON.stringify(formularyInput.comission),
-      }
-    );
+    const dbFormulary = await req.db.FormularyRepository.insert({
+      type: formularyInput.type,
+      from: formularyInput.period.from,
+      to: formularyInput.period.to,
+      userId: req.decodedJTW.id,
+      status: FormularyStatus.ON_PROGRESS,
+      roleId: dbRole.id,
+      levelId: dbLevel.id,
+      classId: formularyInput.classId,
+      comission: JSON.stringify(formularyInput.comission),
+    });
 
     return res.status(200).send(dbFormulary);
   } catch (error) {
     console.log("Error on Creating Formulary: ", error);
+    throw new ServerError((error as KnexError).detail);
+  }
+}
+
+export async function updateFormulary(req: Request, res: Response) {
+  const formularyInput: FormularyInput = req.body;
+  const { id: formularyId } = req.params;
+
+  const { error } = formularyValidator.validate(formularyInput);
+
+  if (error) {
+    throw new ValidationError(error.message);
+  }
+
+  const dbRole = await req.db.RoleRepository.get(formularyInput.roleId);
+  const dbLevel = await req.db.LevelRepository.get(formularyInput.levelId);
+
+  if (!dbRole || !dbLevel) {
+    throw new NotFoundError(`Some career, role, level, academicDegree or nationality was wronged informed.`);
+  }
+
+  try {
+    const dbFormulary = await req.db.FormularyRepository.update({
+      id: formularyId,
+      type: formularyInput.type,
+      from: formularyInput.period.from,
+      to: formularyInput.period.to,
+      roleId: dbRole.id,
+      levelId: dbLevel.id,
+      classId: formularyInput.classId,
+      comission: JSON.stringify(formularyInput.comission),
+    });
+
+    return res.status(200).send(dbFormulary);
+  } catch (error) {
+    console.log("Error on Updating Formulary: ", error);
     throw new ServerError((error as KnexError).detail);
   }
 }
@@ -68,8 +102,6 @@ export async function upsertFormularyAnswer(req: Request, res: Response) {
     throw new InvalidActionError("You're not authorized to update this formulary.");
   }
 
- 
-
   const dbFormularyAnswers = await req.db.FormularyAnswerRepository.upsertFormularyAnswers(req, formularyAnswerInput);
 
   return res.status(200).send(dbFormularyAnswers);
@@ -92,7 +124,7 @@ export async function getFormularyInformations(req: Request, res: Response) {
   const dbFormulary = await req.db.FormularyRepository.get(formularyId);
 
   if (!dbFormulary) {
-    throw new NotFoundError("We couldn't find this formulary.")
+    throw new NotFoundError("We couldn't find this formulary.");
   }
 
   const dbFormularyAnswers = await req
@@ -108,12 +140,11 @@ export async function getFormularyInformations(req: Request, res: Response) {
       "fields.campo",
     )
     .leftJoin("activities", "formularyAnswers.activityId", "activities.id")
-    .leftJoin("fields", "formularyAnswers.fieldId", "fields.id")    
+    .leftJoin("fields", "formularyAnswers.fieldId", "fields.id")
     .groupBy("formularyAnswers.id", "fields.campo", "activities.atividade", "activities.pontos", "activities.peso")
     .where("formularyAnswers.formularyId", dbFormulary.id)
     .orderBy("fields.campo")
     .orderBy("activities.atividade");
-
 
   const dbFiles = await req
     .knex("formularyAnswers")
@@ -127,22 +158,16 @@ export async function getFormularyInformations(req: Request, res: Response) {
     )
     .leftJoin("files", "formularyAnswers.id", "files.formularyAnswerId")
     .leftJoin("activities", "formularyAnswers.activityId", "activities.id")
-    .leftJoin("fields", "formularyAnswers.fieldId", "fields.id")    
+    .leftJoin("fields", "formularyAnswers.fieldId", "fields.id")
     .where("formularyAnswers.formularyId", dbFormulary.id)
     .orderBy("fields.campo")
     .orderBy("activities.atividade");
 
-
-    const dbUser = await req
+  const dbUser = await req
     .knex("users")
-    .select(
-      "users.id",
-      "users.firstName",
-      "users.lastName",
-      "users.email",
-    )
+    .select("users.id", "users.firstName", "users.lastName", "users.email")
     .where("users.id", dbFormulary.userId);
-  
+
   return res.status(200).send({
     dbFormulary,
     dbFormularyAnswers,
@@ -157,7 +182,7 @@ export async function closeFormulary(req: Request, res: Response) {
   const dbFormulary = await req.db.FormularyRepository.get(formularyId);
 
   if (!dbFormulary) {
-    throw new NotFoundError("We couldn't find this formulary.")
+    throw new NotFoundError("We couldn't find this formulary.");
   }
 
   if (dbFormulary.userId !== req.decodedJTW.id) {
@@ -178,14 +203,14 @@ export async function deleteFormulary(req: Request, res: Response) {
   const dbFormulary = await req.db.FormularyRepository.get(formularyId);
 
   if (!dbFormulary) {
-    throw new NotFoundError("We couldn't find this formulary.")
+    throw new NotFoundError("We couldn't find this formulary.");
   }
 
   if (dbFormulary.userId !== req.decodedJTW.id) {
     throw new InvalidActionError("You're not authorized to close this formulary.");
   }
 
-  await req.knex("formularyAnswers").delete().where("formularyId", formularyId)
+  await req.knex("formularyAnswers").delete().where("formularyId", formularyId);
 
   const finishedFormulary = await req.db.FormularyRepository.delete(formularyId);
 
@@ -198,7 +223,7 @@ export async function deleteFormularyAnswer(req: Request, res: Response) {
   const dbFormulary = await req.db.FormularyRepository.get(formularyId);
 
   if (!dbFormulary) {
-    throw new NotFoundError("We couldn't find this formulary.")
+    throw new NotFoundError("We couldn't find this formulary.");
   }
 
   if (dbFormulary.userId !== req.decodedJTW.id) {
@@ -207,17 +232,12 @@ export async function deleteFormularyAnswer(req: Request, res: Response) {
 
   const dbFormularyAnswers = await req
     .knex("formularyAnswers")
-    .select(
-      "formularyAnswers.id",
-      "formularyAnswers.answer",
-      "formularyAnswers.activityId",
-      "formularyAnswers.fieldId",
-    )
-    .where("formularyAnswers.formularyId", dbFormulary.id)
+    .select("formularyAnswers.id", "formularyAnswers.answer", "formularyAnswers.activityId", "formularyAnswers.fieldId")
+    .where("formularyAnswers.formularyId", dbFormulary.id);
 
-  await req.knex("formularyAnswers").delete().where("id", formularyAnswerId)
+  await req.knex("formularyAnswers").delete().where("id", formularyAnswerId);
 
-  await req.knex("files").delete().where("formularyAnswerId", formularyAnswerId)
+  await req.knex("files").delete().where("formularyAnswerId", formularyAnswerId);
 
   return res.status(200).send(dbFormularyAnswers);
 }

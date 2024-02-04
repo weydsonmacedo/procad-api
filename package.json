@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only -r dotenv/config -r tsconfig-paths/register -P tsconfig.json src/server.ts",
     "build": "npx tsc",
-    "start": "node src/server.js",
+    "start": "node build/src/server.js",
     "migration:create": "knex migrate:make",
     "migration:revert": "knex migrate:rollback",
     "migration:run": "knex migrate:latest",
@@ -31,6 +31,7 @@
     "@types/express": "^4.17.13",
     "@types/faker": "^5.5.8",
     "@types/helmet": "^4.0.0",
+    "@types/html-pdf": "^3.0.1",
     "@types/jest": "^27.0.1",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.5",
@@ -49,11 +50,12 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "date-fns": "^2.23.0",
     "exceljs": "^4.2.1",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
+    "dotenv": "^10.0.0",
     "express-async-errors": "^3.1.1",
     "helmet": "^4.6.0",
     "html-pdf": "^3.0.1",
@@ -63,7 +65,8 @@
     "nodemailer": "^6.9.1",
     "pg": "^8.7.1",
     "pg-connection-string": "^2.5.0",
-    "supertest": "^6.1.5",
+    "puppeteer": "^19.10.1",
+    "supertest": "^6.3.3",
     "uuid": "^8.3.2"
   }
 }
